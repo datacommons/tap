@@ -12,7 +12,7 @@ gutter: 10
 </div>
 <div class="clear"></div>
 
-<div id="directory" class="js-masonry" data-masonry-options='{ "itemSelector": ".item", "columnWidth": {{page.width}}, "gutter": {{page.gutter}}'>
+<div id="directory" class="js-masonry" data-masonry-options='{ "itemSelector": ".item", "columnWidth": {{page.width}}, "gutter": {{page.gutter}} }'>
 </div>
 <div class="clear"></div>
 
@@ -84,7 +84,7 @@ $(function() {
      maxZoom: 18
    }).addTo(map);
 
-   var all = {{ site.data.directory | jsonify }};
+   var all = {{ site.data.directory.tables.directory.rows | jsonify }};
    var markers = null;
    var current_filter = "notset";
 
@@ -131,6 +131,7 @@ $(function() {
        var x = mdata[i]["LAT"];
        var y = mdata[i]["LNG"];
        if (x==""||y=="") continue;
+       if (x==null||y==null) continue;
        x = parseFloat(x);
        y = parseFloat(y);
        if (first) {
@@ -156,9 +157,11 @@ $(function() {
      directory.html("");
      for (var i=0; i<data.length; i++) {
        var member = data[i];
+       console.log(member);
        var txt = member_template(member);
        directory.append(txt);
-       if (member.LAT==""||member.LNG=="") continue;
+       if (member.LAT==""||member.LNG==""||member.LAT==null||member.LNG==null) continue;
+       console.log(member.LAT + "  " + member.LNG);
        var marker = new L.Marker(new L.LatLng(member.LAT,member.LNG), { title: member.NAME });
        marker.bindPopup(txt);
        markers.addLayer(marker);
