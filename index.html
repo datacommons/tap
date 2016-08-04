@@ -75,13 +75,11 @@ var formatPhone = function(raw){
 $(function() {
 
    var map = L.map('map');
-   var mapquest = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
-   var subdomains = ['otile1','otile2','otile3','otile4'];
-   var attrib = '<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> data, <a href="http://www.mapquest.com/" target="_blank">MapQuest-OSM</a> tiles.';
+   var mapquest = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+   var attrib = '©<a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors';
    L.tileLayer(mapquest, {
      attribution: attrib,
-     subdomains: subdomains,
-     maxZoom: 18
+     maxZoom: 19
    }).addTo(map);
 
    var all = {{ site.data.directory.tables.directory.rows | jsonify }};
